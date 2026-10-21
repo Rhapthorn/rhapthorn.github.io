@@ -1,6 +1,5 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="dark" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -114,7 +113,7 @@
     <!-- Atmospheric background ambient glow elements -->
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-abyss-crimson opacity-10 blur-[150px] pointer-events-none rounded-full z-0"></div>
 
-    <!-- FLOATING TOP UTILITY BAR (Audio & CRT & Mana/HP HUD) -->
+    <!-- FLOATING TOP UTILITY BAR -->
     <div class="sticky top-0 z-50 bg-abyss-900/90 border-b border-abyss-border backdrop-blur-md px-4 py-2.5 shadow-lg">
         <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm font-mono">
             <!-- HUD Status bars -->
@@ -129,25 +128,26 @@
                 </div>
             </div>
 
-            <!-- Controls (Audio, CRT, Quick Terminal Jump) -->
+            <!-- Controls -->
             <div class="flex items-center gap-2.5">
                 <button onclick="toggleAudio()" id="audio-toggle" class="px-3 py-1 rounded bg-abyss-800 hover:bg-abyss-700 text-gray-300 border border-abyss-border transition flex items-center gap-1.5">
                     <i class="fa-solid fa-volume-xmark text-abyss-crimson" id="audio-icon"></i>
-                    <span id="audio-label">Ambient Sorcery: OFF</span>
+                    <span id="audio-label" class="hidden sm:inline">Ambient Sorcery: OFF</span>
                 </button>
                 <button onclick="toggleCRT()" class="px-3 py-1 rounded bg-abyss-800 hover:bg-abyss-700 text-gray-300 border border-abyss-border transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-tv text-abyss-crimson"></i> CRT Scanlines
+                    <i class="fa-solid fa-tv text-abyss-crimson"></i> <span class="hidden sm:inline">CRT Scanlines</span>
                 </button>
-                <a href="#terminal-section" class="px-3 py-1 rounded bg-abyss-crimson/20 hover:bg-abyss-crimson/40 text-abyss-crimson border border-abyss-crimson/50 transition font-bold flex items-center gap-1">
+                <!-- FIXED TERMINAL BUTTON -->
+                <button onclick="jumpToTerminal()" class="px-3 py-1 rounded bg-abyss-crimson/20 hover:bg-abyss-crimson/40 text-abyss-crimson border border-abyss-crimson/50 transition font-bold flex items-center gap-1 cursor-pointer">
                     <i class="fa-solid fa-terminal"></i> Terminal Altar
-                </a>
+                </button>
             </div>
         </div>
     </div>
 
     <div class="max-w-5xl mx-auto px-4 py-10 relative z-10">
 
-        <!-- HEADER SECTION: Avatar & Typing Banner -->
+        <!-- HEADER SECTION -->
         <header class="text-center mb-10">
             <!-- Skull / Entity Avatar -->
             <div class="inline-block relative group cursor-pointer mb-6" onclick="triggerManaSurge()">
@@ -228,10 +228,6 @@
                         <li class="flex items-start gap-2 bg-abyss-800/50 p-2.5 rounded-lg border border-abyss-border/50">
                             <span class="text-abyss-crimson font-bold min-w-[110px]"><i class="fa-solid fa-ring mr-1"></i> Relics:</span>
                             <span class="text-gray-200">TypeScript, React, Next.js, & Tauri</span>
-                        </li>
-                        <li class="flex items-start gap-2 bg-abyss-800/50 p-2.5 rounded-lg border border-abyss-border/50">
-                            <span class="text-abyss-crimson font-bold min-w-[110px]"><i class="fa-solid fa-fire-flame-curved mr-1"></i> Curses:</span>
-                            <span class="text-gray-200">Souls-like deckbuilder, modular Discord bots, & dashboards.</span>
                         </li>
                         <li class="flex items-start gap-2 bg-abyss-800/50 p-2.5 rounded-lg border border-abyss-border/50">
                             <span class="text-abyss-crimson font-bold min-w-[110px]"><i class="fa-solid fa-scale-balanced mr-1"></i> Alignment:</span>
@@ -315,33 +311,6 @@
                             <div class="bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson h-2.5 rounded-full transition-all duration-1000" style="width: 85%"></div>
                         </div>
                     </div>
-                    <div class="bg-abyss-800/40 p-2 rounded border border-abyss-border/30">
-                        <div class="flex justify-between mb-1 text-gray-300">
-                            <span>🗄️ Database DB</span>
-                            <span class="text-abyss-crimson font-bold">75%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 rounded-full h-2.5 overflow-hidden border border-abyss-border/50">
-                            <div class="bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson h-2.5 rounded-full transition-all duration-1000" style="width: 75%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-abyss-800/40 p-2 rounded border border-abyss-border/30">
-                        <div class="flex justify-between mb-1 text-gray-300">
-                            <span>🕷️ Playwright</span>
-                            <span class="text-abyss-crimson font-bold">75%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 rounded-full h-2.5 overflow-hidden border border-abyss-border/50">
-                            <div class="bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson h-2.5 rounded-full transition-all duration-1000" style="width: 75%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-abyss-800/40 p-2 rounded border border-abyss-border/30">
-                        <div class="flex justify-between mb-1 text-gray-300">
-                            <span>⚡ Vite & Tauri</span>
-                            <span class="text-abyss-crimson font-bold">70%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 rounded-full h-2.5 overflow-hidden border border-abyss-border/50">
-                            <div class="bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson h-2.5 rounded-full transition-all duration-1000" style="width: 70%"></div>
-                        </div>
-                    </div>
                 </div>
             </section>
 
@@ -362,80 +331,112 @@
                              onerror="this.src='https://placehold.co/450x150/0d1117/ff0055?text=Top+Languages+Unavailable'"
                              alt="Top Languages" class="max-w-full h-auto rounded" />
                     </div>
-                    <div class="w-full bg-abyss-800/60 p-3 rounded-xl border border-abyss-border/70 shadow-inner flex justify-center overflow-hidden">
-                        <img src="https://github-readme-streak-stats.herokuapp.com?user=Rhapthorn&theme=radical&hide_border=true&background=0D1117&fire=FF0055&sideLabels=true" 
-                             onerror="this.src='https://placehold.co/450x160/0d1117/ff0055?text=GitHub+Streak+Unavailable'"
-                             alt="GitHub Streak" class="max-w-full h-auto rounded" />
-                    </div>
                 </div>
             </section>
-
         </main>
 
-        <!-- SECTION 3: PROJECT DUNGEON & QUEST LOG -->
-        <section class="mt-8 bg-abyss-900 border border-abyss-border rounded-xl p-6 shadow-2xl relative">
-            <h3 class="font-cinzel text-center text-xl font-bold text-gray-100 mb-2 flex items-center justify-center gap-2">
-                <span>🏰</span> [ PROJECT DUNGEON & ACTIVE CURSES ]
+        <!-- NEW: DEDICATED ACTIVE PROJECTS SECTION -->
+        <section id="projects-section" class="mt-8 bg-abyss-900 border border-abyss-border rounded-xl p-6 sm:p-8 shadow-2xl relative">
+            <h3 class="font-cinzel text-center text-2xl font-bold text-gray-100 mb-2 flex items-center justify-center gap-2">
+                <span>🏰</span> [ ACTIVE PROJECTS ]
             </h3>
-            <p class="text-center text-xs text-gray-400 mb-6 font-mono">Conquered repositories and ongoing arcane engineering quests.</p>
+            <p class="text-center text-sm text-gray-400 mb-8 font-mono border-b border-abyss-border/50 pb-4">
+                Forged in the abyss. Conquered repositories and arcane artifacts.
+            </p>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Quest 1 -->
-                <div class="bg-abyss-800/70 border border-abyss-border/80 rounded-lg p-4 flex flex-col justify-between hover:border-abyss-crimson transition duration-300">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="font-bold text-gray-200 text-sm">⚔️ Souls-like Deckbuilder</span>
-                            <span class="px-2 py-0.5 text-[10px] font-mono bg-amber-950 text-amber-400 border border-amber-800 rounded">In Progress</span>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Project 1: Souls-like Deckbuilder -->
+                <div class="bg-abyss-950 border border-abyss-border rounded-xl overflow-hidden group hover:border-abyss-crimson transition-all duration-300 shadow-lg">
+                    <div class="h-40 bg-abyss-800 relative overflow-hidden">
+                        <!-- Abstract placeholder background -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-red-900/40 to-black"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="fa-solid fa-khanda text-5xl text-abyss-crimson/50 group-hover:scale-110 transition-transform duration-500"></i>
                         </div>
-                        <p class="text-xs text-gray-400 mb-4">Architecting card combat mechanics, stamina meters, and grim boss encounters in TypeScript & React.</p>
+                        <div class="absolute top-3 right-3 px-2 py-1 text-xs font-mono bg-amber-950/80 text-amber-400 border border-amber-800 rounded backdrop-blur-sm">
+                            In Progress
+                        </div>
                     </div>
-                    <div>
-                        <div class="flex justify-between text-[11px] font-mono text-gray-400 mb-1">
-                            <span>Dungeon Progress</span>
-                            <span class="text-abyss-crimson font-bold">68%</span>
+                    <div class="p-5">
+                        <h4 class="text-lg font-bold text-gray-200 mb-2 font-cinzel">Souls-like Deckbuilder</h4>
+                        <p class="text-sm text-gray-400 mb-4 line-clamp-2">
+                            A dark fantasy card battler with stamina mechanics and punishing boss encounters. Architecting state machines and deck RNG.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="px-2 py-1 bg-abyss-800 text-blue-400 text-xs rounded border border-abyss-border font-mono">TypeScript</span>
+                            <span class="px-2 py-1 bg-abyss-800 text-cyan-400 text-xs rounded border border-abyss-border font-mono">React</span>
+                            <span class="px-2 py-1 bg-abyss-800 text-gray-300 text-xs rounded border border-abyss-border font-mono">Zustand</span>
                         </div>
-                        <div class="w-full bg-abyss-900 h-2 rounded-full overflow-hidden border border-abyss-border">
-                            <div class="bg-abyss-crimson h-full rounded-full" style="width: 68%"></div>
+                        <div class="flex gap-3">
+                            <button class="flex-1 py-2 bg-abyss-800 hover:bg-abyss-700 text-gray-300 text-xs font-bold rounded border border-abyss-border transition flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-github"></i> View Grimoire
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quest 2 -->
-                <div class="bg-abyss-800/70 border border-abyss-border/80 rounded-lg p-4 flex flex-col justify-between hover:border-abyss-crimson transition duration-300">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="font-bold text-gray-200 text-sm">🤖 Modular Discord Bot</span>
-                            <span class="px-2 py-0.5 text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-800 rounded">Deployed</span>
+                <!-- Project 2: Modular Discord Bot -->
+                <div class="bg-abyss-950 border border-abyss-border rounded-xl overflow-hidden group hover:border-abyss-crimson transition-all duration-300 shadow-lg">
+                    <div class="h-40 bg-abyss-800 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-900/40 to-black"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="fa-brands fa-discord text-5xl text-emerald-500/50 group-hover:scale-110 transition-transform duration-500"></i>
                         </div>
-                        <p class="text-xs text-gray-400 mb-4">Forging automated moderation, music streaming hooks, and custom guild logging modules with Node.js.</p>
+                        <div class="absolute top-3 right-3 px-2 py-1 text-xs font-mono bg-emerald-950/80 text-emerald-400 border border-emerald-800 rounded backdrop-blur-sm">
+                            Deployed
+                        </div>
                     </div>
-                    <div>
-                        <div class="flex justify-between text-[11px] font-mono text-gray-400 mb-1">
-                            <span>Dungeon Progress</span>
-                            <span class="text-emerald-400 font-bold">100%</span>
+                    <div class="p-5">
+                        <h4 class="text-lg font-bold text-gray-200 mb-2 font-cinzel">Modular Discord Bot</h4>
+                        <p class="text-sm text-gray-400 mb-4 line-clamp-2">
+                            A highly extensible guild automaton managing server moderation, dynamic role assignment, and high-quality audio streaming.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="px-2 py-1 bg-abyss-800 text-green-500 text-xs rounded border border-abyss-border font-mono">Node.js</span>
+                            <span class="px-2 py-1 bg-abyss-800 text-indigo-400 text-xs rounded border border-abyss-border font-mono">Discord.js</span>
+                            <span class="px-2 py-1 bg-abyss-800 text-white text-xs rounded border border-abyss-border font-mono">SQLite</span>
                         </div>
-                        <div class="w-full bg-abyss-900 h-2 rounded-full overflow-hidden border border-abyss-border">
-                            <div class="bg-emerald-500 h-full rounded-full" style="width: 100%"></div>
+                        <div class="flex gap-3">
+                            <button class="flex-1 py-2 bg-abyss-800 hover:bg-abyss-700 text-gray-300 text-xs font-bold rounded border border-abyss-border transition flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-github"></i> View Grimoire
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quest 3 -->
-                <div class="bg-abyss-800/70 border border-abyss-border/80 rounded-lg p-4 flex flex-col justify-between hover:border-abyss-crimson transition duration-300">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="font-bold text-gray-200 text-sm">📊 IT Operations Dashboard</span>
-                            <span class="px-2 py-0.5 text-[10px] font-mono bg-purple-950 text-purple-400 border border-purple-800 rounded">Refining</span>
+                <!-- Project 3: IT Operations Dashboard -->
+                <div class="bg-abyss-950 border border-abyss-border rounded-xl overflow-hidden group hover:border-abyss-crimson transition-all duration-300 shadow-lg lg:col-span-2">
+                    <div class="flex flex-col md:flex-row h-full">
+                        <div class="h-40 md:h-auto md:w-2/5 bg-abyss-800 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-purple-900/40 to-black"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fa-solid fa-server text-6xl text-purple-500/50 group-hover:scale-110 transition-transform duration-500"></i>
+                            </div>
+                            <div class="absolute top-3 right-3 px-2 py-1 text-xs font-mono bg-purple-950/80 text-purple-400 border border-purple-800 rounded backdrop-blur-sm">
+                                Refining
+                            </div>
                         </div>
-                        <p class="text-xs text-gray-400 mb-4">Building high-performance desktop utility metrics using Tauri, Vite, and SQLite data caching.</p>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-[11px] font-mono text-gray-400 mb-1">
-                            <span>Dungeon Progress</span>
-                            <span class="text-purple-400 font-bold">85%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 h-2 rounded-full overflow-hidden border border-abyss-border">
-                            <div class="bg-purple-500 h-full rounded-full" style="width: 85%"></div>
+                        <div class="p-5 md:w-3/5 flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-200 mb-2 font-cinzel">IT Operations Desktop Dashboard</h4>
+                                <p class="text-sm text-gray-400 mb-4">
+                                    A lightweight desktop native application built for monitoring network metrics, managing background tasks, and parsing system logs in real-time. Designed specifically for daily IT workflows.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mb-5">
+                                    <span class="px-2 py-1 bg-abyss-800 text-yellow-500 text-xs rounded border border-abyss-border font-mono">Tauri</span>
+                                    <span class="px-2 py-1 bg-abyss-800 text-purple-400 text-xs rounded border border-abyss-border font-mono">Vite</span>
+                                    <span class="px-2 py-1 bg-abyss-800 text-cyan-400 text-xs rounded border border-abyss-border font-mono">React</span>
+                                    <span class="px-2 py-1 bg-abyss-800 text-orange-400 text-xs rounded border border-abyss-border font-mono">Rust</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 mt-auto">
+                                <button class="flex-1 py-2 bg-abyss-800 hover:bg-abyss-700 text-gray-300 text-xs font-bold rounded border border-abyss-border transition flex items-center justify-center gap-2">
+                                    <i class="fa-brands fa-github"></i> View Grimoire
+                                </button>
+                                <button class="flex-1 py-2 bg-abyss-crimson/20 hover:bg-abyss-crimson/40 text-abyss-crimson text-xs font-bold rounded border border-abyss-crimson/50 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-download"></i> Download Artifact
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -443,7 +444,7 @@
         </section>
 
         <!-- SECTION 4: THE FORBIDDEN ALTAR (INTERACTIVE TERMINAL) -->
-        <section id="terminal-section" class="mt-8 bg-abyss-900 border border-abyss-border rounded-xl p-6 shadow-2xl relative font-mono">
+        <section id="terminal-section" class="mt-8 bg-abyss-900 border border-abyss-border rounded-xl p-6 shadow-2xl relative font-mono scroll-mt-24">
             <div class="flex items-center justify-between border-b border-abyss-border pb-3 mb-4">
                 <div class="flex items-center gap-2">
                     <span class="w-3 h-3 rounded-full bg-red-600 inline-block"></span>
@@ -462,7 +463,7 @@
             <!-- Terminal Input Form -->
             <form onsubmit="handleTerminalInput(event)" class="flex gap-2">
                 <span class="text-abyss-crimson font-bold flex items-center">&gt;</span>
-                <input type="text" id="terminal-input" autocomplete="off" autofocus 
+                <input type="text" id="terminal-input" autocomplete="off" 
                        class="w-full bg-abyss-950 border border-abyss-border rounded px-3 py-2 text-gray-200 focus:outline-none focus:border-abyss-crimson text-xs sm:text-sm font-mono"
                        placeholder="Type a command (e.g., help, lore, skills, stats, summon)...">
                 <button type="submit" class="px-4 py-2 bg-abyss-crimson hover:bg-red-700 text-white rounded font-bold text-xs transition">Execute</button>
@@ -518,6 +519,7 @@
             const icon = document.getElementById("audio-icon");
             if (isAudioEnabled) {
                 initAudio();
+                label.classList.remove("hidden");
                 label.textContent = "Ambient Sorcery: ON";
                 icon.className = "fa-solid fa-volume-high text-emerald-400";
                 playSpellSound(440, 'triangle', 0.3);
@@ -533,7 +535,22 @@
             playSpellSound(180, 'sawtooth', 0.1);
         }
 
-        // --- 3. TYPING BANNER EFFECT ---
+        // --- 3. TERMINAL JUMP & FOCUS ---
+        function jumpToTerminal() {
+            // Play a small click sound if audio is on
+            playSpellSound(600, 'sine', 0.1);
+            
+            // Scroll to the terminal smoothly
+            const terminalSection = document.getElementById("terminal-section");
+            terminalSection.scrollIntoView({ behavior: "smooth" });
+            
+            // Focus the input field after scrolling finishes
+            setTimeout(() => {
+                document.getElementById("terminal-input").focus();
+            }, 600); // 600ms allows time for the smooth scroll animation
+        }
+
+        // --- 4. TYPING BANNER EFFECT ---
         const phrases = [
             "System Corrupted...",
             "User: Rhapthorn",
@@ -570,7 +587,7 @@
             setTimeout(typeEffect, typeSpeed);
         }
 
-        // --- 4. GRIMOIRE ACCORDION TOGGLE ---
+        // --- 5. GRIMOIRE ACCORDION TOGGLE ---
         function toggleGrimoire() {
             const content = document.getElementById("grimoire-content");
             const chevron = document.getElementById("grimoire-chevron");
@@ -584,7 +601,7 @@
             }
         }
 
-        // --- 5. INTERACTIVE SKILL BADGES & HUD STATS ---
+        // --- 6. INTERACTIVE SKILL BADGES & HUD STATS ---
         let hp = 100;
         let mana = 999;
 
@@ -642,7 +659,7 @@
             });
         }
 
-        // --- 6. FLOATING EMBERS CANVAS ---
+        // --- 7. FLOATING EMBERS CANVAS ---
         const canvas = document.getElementById("ember-canvas");
         const ctx = canvas.getContext("2d");
         let embers = [];
@@ -685,7 +702,7 @@
             requestAnimationFrame(animateEmbers);
         }
 
-        // --- 7. FORBIDDEN ALTAR TERMINAL LOGIC ---
+        // --- 8. FORBIDDEN ALTAR TERMINAL LOGIC ---
         function appendTerminalOutput(text, isHtml = false) {
             const output = document.getElementById("terminal-output");
             const div = document.createElement("div");
@@ -734,7 +751,7 @@
                     appendTerminalOutput(`Artifact Mastery: TS/JS (92%), HTML/CSS (90%), React/Next (88%), Node.js (85%), Git (85%), DB (75%), Playwright (75%), Vite/Tauri (70%).`, false);
                     break;
                 case 'projects':
-                    appendTerminalOutput(`Active Quests: Souls-like Deckbuilder (68%), Modular Discord Bot (100%), IT Operations Dashboard (85%).`, false);
+                    appendTerminalOutput(`Active Quests: Souls-like Deckbuilder (TypeScript/React), Modular Discord Bot (Node.js), IT Operations Dashboard (Tauri/Vite). Scroll up to see the gallery.`, false);
                     break;
                 case 'summon':
                     triggerManaSurge();

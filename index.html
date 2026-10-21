@@ -1,3 +1,4 @@
+<!-- void_abyss_portfolio.html -->
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -36,20 +37,7 @@
                 }
             }
         }
-
-
-    <script>
-  // Force scroll to top on page load and refresh
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
-  window.scrollTo(0, 0);
-  window.addEventListener('beforeunload', () => {
-    window.scrollTo(0, 0);
-  });
     </script>
-    </script>
-    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -61,7 +49,6 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
-
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -475,7 +462,7 @@
             <!-- Terminal Input Form -->
             <form onsubmit="handleTerminalInput(event)" class="flex gap-2">
                 <span class="text-abyss-crimson font-bold flex items-center">&gt;</span>
-                <input type="text" id="terminal-input" autocomplete="off" autofocus 
+                <input type="text" id="terminal-input" autocomplete="off"
                        class="w-full bg-abyss-950 border border-abyss-border rounded px-3 py-2 text-gray-200 focus:outline-none focus:border-abyss-crimson text-xs sm:text-sm font-mono"
                        placeholder="Type a command (e.g., help, lore, skills, stats, summon)...">
                 <button type="submit" class="px-4 py-2 bg-abyss-crimson hover:bg-red-700 text-white rounded font-bold text-xs transition">Execute</button>
@@ -766,6 +753,7 @@
 
         // Initialize on window load
         window.onload = function() {
+            window.scrollTo(0, 0);
             typeEffect();
             renderSkillBadges();
             updateHUD();

@@ -1,764 +1,382 @@
-<!-- void_abyss_portfolio.html -->
+<!-- index.html -->
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rhapthorn's Void Abyss | Grimoire & Interactive Altar</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Rhapthorn // Void Architect & Code Necromancer</title>
+    
+    <!-- Force scroll to top instantly on load/refresh -->
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        abyss: {
-                            950: '#030508',
-                            900: '#0d1117',
-                            800: '#161b22',
-                            700: '#21262d',
-                            border: '#4a0000',
-                            crimson: '#ff0055',
-                            darkcrimson: '#8b0000',
-                            glow: 'rgba(255, 0, 85, 0.35)'
-                        }
-                    },
-                    fontFamily: {
-                        cinzel: ['Cinzel Decorative', 'serif'],
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['Fira Code', 'monospace']
-                    },
-                    boxShadow: {
-                        'crimson-glow': '0 0 25px rgba(255, 0, 85, 0.35)',
-                        'crimson-sm': '0 0 10px rgba(255, 0, 85, 0.2)',
-                        'inner-red': 'inset 0 0 15px rgba(255, 0, 85, 0.2)'
-                    }
-                }
-            }
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
         }
+        window.scrollTo(0, 0);
     </script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Cinzel Decorative & Fira Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
     <style>
+        :root {
+            --blood-red: #ff0055;
+            --blood-glow: rgba(255, 0, 85, 0.35);
+            --dark-bg: #0d1117;
+            --border-color: #4a0000;
+        }
+
         body {
-            background-color: #030508;
+            background-color: var(--dark-bg);
             color: #c9d1d9;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
-        /* Custom scrollbar */
+
+        .font-cinzel {
+            font-family: 'Cinzel Decorative', serif;
+        }
+
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Custom Glowing Border & Shadows */
+        .gothic-box {
+            background-color: #0d1117;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 25px rgba(74, 0, 0, 0.4);
+            border-radius: 8px;
+        }
+
+        .skull-img {
+            border-radius: 8px;
+            border: 1px solid rgba(255, 0, 85, 0.2);
+            box-shadow: 0 0 30px var(--blood-glow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .skull-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 45px rgba(255, 0, 85, 0.6);
+        }
+
+        /* Floating Embers Animation */
+        .ember {
+            position: fixed;
+            background: #ff0055;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.7;
+            box-shadow: 0 0 8px #ff0055;
+            animation: floatUp linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) translateX(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0d1117;
+            background: #090d12;
         }
         ::-webkit-scrollbar-thumb {
-            background: #8b0000;
+            background: #4a0000;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #ff0055;
         }
-        .scanline {
-            background: linear-gradient(
-                to bottom,
-                rgba(255,255,255,0),
-                rgba(255,255,255,0) 50%,
-                rgba(0, 0, 0, 0.25) 50%,
-                rgba(0, 0, 0, 0.25)
-            );
-            background-size: 100% 4px;
+
+        /* Interactive Grimoire Details */
+        details summary {
+            cursor: pointer;
+            list-style: none;
         }
-        @keyframes pulse-slow {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.02); }
-        }
-        .animate-pulse-slow {
-            animation: pulse-slow 4s ease-in-out infinite;
-        }
-        #ember-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        .crt-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            background-size: 100% 3px, 3px 100%;
-            pointer-events: none;
-            z-index: 999;
-            opacity: 0.4;
+        details summary::-webkit-details-marker {
             display: none;
-        }
-        .crt-active .crt-overlay {
-            display: block;
         }
     </style>
 </head>
-<body class="bg-abyss-950 text-gray-300 min-h-screen relative selection:bg-abyss-crimson selection:text-white">
+<body class="relative min-h-screen py-10 px-4 selection:bg-[#ff0055] selection:text-white">
 
-    <!-- Embers Canvas Background -->
-    <canvas id="ember-canvas"></canvas>
-    <!-- CRT Screen Overlay Toggleable -->
-    <div class="crt-overlay"></div>
+    <!-- Background Embers Container -->
+    <div id="embers-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
 
-    <!-- Atmospheric background ambient glow elements -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-abyss-crimson opacity-10 blur-[150px] pointer-events-none rounded-full z-0"></div>
+    <div class="max-w-5xl mx-auto relative z-10 space-y-8">
 
-    <!-- FLOATING TOP UTILITY BAR (Audio & CRT & Mana/HP HUD) -->
-    <div class="sticky top-0 z-50 bg-abyss-900/90 border-b border-abyss-border backdrop-blur-md px-4 py-2.5 shadow-lg">
-        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm font-mono">
-            <!-- HUD Status bars -->
-            <div class="flex items-center gap-4">
-                <div class="flex items-center gap-1.5 bg-abyss-800 px-3 py-1 rounded border border-abyss-border">
-                    <span class="text-abyss-crimson font-bold"><i class="fa-solid fa-heart-pulse"></i> HP:</span>
-                    <span id="hp-text" class="text-gray-100">100/100</span>
-                </div>
-                <div class="flex items-center gap-1.5 bg-abyss-800 px-3 py-1 rounded border border-abyss-border">
-                    <span class="text-cyan-400 font-bold"><i class="fa-solid fa-bolt"></i> MANA:</span>
-                    <span id="mana-text" class="text-gray-100">999/999</span>
-                </div>
-            </div>
-
-            <!-- Controls (Audio, CRT, Quick Terminal Jump) -->
-            <div class="flex items-center gap-2.5">
-                <button onclick="toggleAudio()" id="audio-toggle" class="px-3 py-1 rounded bg-abyss-800 hover:bg-abyss-700 text-gray-300 border border-abyss-border transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-volume-xmark text-abyss-crimson" id="audio-icon"></i>
-                    <span id="audio-label">Ambient Sorcery: OFF</span>
-                </button>
-                <button onclick="toggleCRT()" class="px-3 py-1 rounded bg-abyss-800 hover:bg-abyss-700 text-gray-300 border border-abyss-border transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-tv text-abyss-crimson"></i> CRT Scanlines
-                </button>
-                <a href="#terminal-section" class="px-3 py-1 rounded bg-abyss-crimson/20 hover:bg-abyss-crimson/40 text-abyss-crimson border border-abyss-crimson/50 transition font-bold flex items-center gap-1">
-                    <i class="fa-solid fa-terminal"></i> Terminal Altar
-                </a>
+        <!-- Top Header / Skull Image -->
+        <div class="text-center">
+            <img src="./skullknight.png" width="350" alt="Void Abyss" class="mx-auto skull-img mb-6" />
+            
+            <!-- Typing SVG Header -->
+            <div class="overflow-x-auto py-2">
+                <img src="https://readme-typing-svg.herokuapp.com?font=Cinzel+Decorative&size=22&duration=3500&pause=1000&color=FF0055&center=true&vCenter=true&width=650&lines=System+Corrupted...;User:+Rhapthorn;Class:+Void+Architect+%26+Code+Necromancer;Whispers+from+the+Abyss..." alt="Typing SVG" class="mx-auto max-w-full" />
             </div>
         </div>
-    </div>
 
-    <div class="max-w-5xl mx-auto px-4 py-10 relative z-10">
-
-        <!-- HEADER SECTION: Avatar & Typing Banner -->
-        <header class="text-center mb-10">
-            <!-- Skull / Entity Avatar -->
-            <div class="inline-block relative group cursor-pointer mb-6" onclick="triggerManaSurge()">
-                <div class="absolute -inset-1 bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-500 animate-pulse-slow"></div>
-                <div class="relative bg-abyss-900 p-2 rounded-xl border border-abyss-border shadow-crimson-glow">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop" 
-                         onerror="this.src='https://placehold.co/350x350/0d1117/ff0055?text=Void+Abyss'"
-                         class="w-[280px] sm:w-[350px] h-[220px] sm:h-[260px] object-cover rounded-lg filter grayscale contrast-125 hover:grayscale-0 transition duration-700" 
-                         alt="Void Entity">
-                    <div class="absolute inset-0 scanline opacity-40 rounded-lg pointer-events-none"></div>
-                </div>
-            </div>
-
-            <!-- Typing Banner -->
-            <div class="max-w-2xl mx-auto mb-6 bg-abyss-900/90 border border-abyss-border/80 rounded-xl py-4 px-6 shadow-inner backdrop-blur-md">
-                <div class="font-cinzel text-abyss-crimson text-base sm:text-2xl font-bold tracking-wider flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-terminal text-sm animate-pulse"></i>
-                    <span id="typing-text" class="border-r-2 border-abyss-crimson pr-1 animate-pulse">System Corrupted...</span>
-                </div>
-            </div>
-
-            <!-- Grimoire Accordion Toggle Button -->
-            <div class="mt-4">
-                <button onclick="toggleGrimoire()" id="grimoire-btn" class="group relative inline-flex items-center gap-3 px-6 py-3 bg-abyss-900 hover:bg-abyss-800 text-gray-200 font-semibold rounded-lg border border-abyss-border hover:border-abyss-crimson shadow-crimson-sm transition-all duration-300">
-                    <span class="text-abyss-crimson group-hover:rotate-12 transition-transform duration-300">📜</span>
-                    <span class="tracking-wide text-sm sm:text-base">[ OPEN THE GRIMOIRE: Reveal Hidden Attributes ]</span>
-                    <i id="grimoire-chevron" class="fa-solid fa-chevron-down text-xs text-abyss-crimson transition-transform duration-300"></i>
-                </button>
-            </div>
-
-            <!-- Hidden Grimoire Attributes Drawer -->
-            <div id="grimoire-content" class="hidden max-w-2xl mx-auto mt-4 p-5 bg-abyss-900/95 border border-abyss-crimson/50 rounded-xl shadow-crimson-glow text-center transition-all">
-                <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-4 font-mono text-xs sm:text-sm mb-3">
-                    <span class="px-3 py-1 bg-abyss-700/80 rounded border border-abyss-border text-abyss-crimson">
-                        <i class="fa-solid fa-shield-halved mr-1"></i> [STATUS]: Corrupted
-                    </span>
-                    <span class="px-3 py-1 bg-abyss-700/80 rounded border border-abyss-border text-emerald-400">
-                        <i class="fa-solid fa-bolt mr-1"></i> [MANA]: 999/999
-                    </span>
-                    <span class="px-3 py-1 bg-abyss-700/80 rounded border border-abyss-border text-purple-300">
-                        <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> [GUILD]: WebStorm & VS Code Sorcerers
-                    </span>
-                </div>
-                <p class="text-gray-400 italic text-sm font-light border-t border-abyss-border/40 pt-3">
+        <!-- Interactive Grimoire Toggle -->
+        <details class="gothic-box p-4 text-center transition-all duration-300">
+            <summary class="font-cinzel text-[#ff0055] font-bold tracking-wider hover:text-white transition-colors">
+                📜 [ OPEN THE GRIMOIRE: Reveal Hidden Attributes ]
+            </summary>
+            <div class="mt-4 pt-4 border-t border-[#4a0000] text-sm md:text-base font-code space-y-2 text-gray-300">
+                <p>
+                    <span class="text-[#ff0055] font-bold">[STATUS]:</span> Corrupted &nbsp;&bull;&nbsp; 
+                    <span class="text-[#ff0055] font-bold">[MANA]:</span> 999/999 &nbsp;&bull;&nbsp; 
+                    <span class="text-[#ff0055] font-bold">[GUILD]:</span> WebStorm & VS Code Sorcerers
+                </p>
+                <p class="italic text-gray-400">
                     "He who controls the architecture controls the fate of the realm. Every repository is a sealed dungeon waiting to be conquered."
                 </p>
             </div>
-        </header>
+        </details>
 
-        <!-- MASTER LAYOUT GRID -->
-        <main class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-abyss-900 border border-abyss-border rounded-xl p-4 sm:p-6 shadow-2xl relative">
-            
-            <!-- CORNER ACCENTS -->
-            <div class="absolute -top-1.5 -left-1.5 w-3 h-3 bg-abyss-crimson"></div>
-            <div class="absolute -top-1.5 -right-1.5 w-3 h-3 bg-abyss-crimson"></div>
-            <div class="absolute -bottom-1.5 -left-1.5 w-3 h-3 bg-abyss-crimson"></div>
-            <div class="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-abyss-crimson"></div>
+        <!-- Main Layout Table / Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 gothic-box p-6 md:p-8">
 
-            <!-- ROW 1, COL 1: ABYSSAL LORE -->
-            <section class="flex flex-col justify-between border-b md:border-b-0 md:border-r border-abyss-border pb-6 md:pb-0 md:pr-6">
-                <div>
-                    <h3 class="font-cinzel text-center text-lg sm:text-xl font-bold text-gray-100 mb-2 flex items-center justify-center gap-2">
-                        <span>🕳️</span> [ ABYSSAL LORE ]
-                    </h3>
-                    <p class="text-center text-xs sm:text-sm text-abyss-crimson italic mb-5">
-                        "Kindling the bonfire while the grimoire compiles in the dark."
-                    </p>
-                    
-                    <ul class="space-y-3 text-sm sm:text-base font-medium text-gray-300">
-                        <li class="flex items-start gap-2 bg-abyss-800/50 p-2.5 rounded-lg border border-abyss-border/50">
-                            <span class="text-abyss-crimson font-bold min-w-[110px]"><i class="fa-solid fa-skull mr-1"></i> Entity:</span>
-                            <span class="text-gray-200">Rhapthorn</span>
-                        </li>
-                        <li class="flex items-start gap-2 bg-abyss-800/50 p-2.5 rounded-lg border border-abyss-border/50">
-                            <span class="text-abyss-crimson font-bold min-w-[110px]"><i class="fa-solid fa-network-wired mr-1"></i> Domain:</span>
-                            <span class="text-gray-200">Full-Stack Development & IT Operations</span>
-                        </li>
-                        <li class="flex items-start gap-2 bg-abyss-800/50 p-2.5 rounded-lg border border-abyss-border/50">
-                            <span class="text-abyss-crimson font-bold min-w-[110px]"><i class="fa-solid fa-ring mr-1"></i> Relics:</span>
-                            <span class="text-gray-200">TypeScript, React, Next.js, & Tauri</span>
-                        </li>
-                        <li class="flex items-start gap-2 bg-abyss-800/50 p-2.5 rounded-lg border border-abyss-border/50">
-                            <span class="text-abyss-crimson font-bold min-w-[110px]"><i class="fa-solid fa-fire-flame-curved mr-1"></i> Curses:</span>
-                            <span class="text-gray-200">Souls-like deckbuilder, modular Discord bots, & dashboards.</span>
-                        </li>
-                        <li class="flex items-start gap-2 bg-abyss-800/50 p-2.5 rounded-lg border border-abyss-border/50">
-                            <span class="text-abyss-crimson font-bold min-w-[110px]"><i class="fa-solid fa-scale-balanced mr-1"></i> Alignment:</span>
-                            <span class="text-gray-200">Chaotic Neutral</span>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- ROW 1, COL 2: FORBIDDEN SKILL TREE -->
-            <section class="flex flex-col justify-between border-b border-abyss-border pb-6 md:pb-6">
-                <div>
-                    <h3 class="font-cinzel text-center text-lg sm:text-xl font-bold text-gray-100 mb-2 flex items-center justify-center gap-2">
-                        <span>🗡️</span> [ FORBIDDEN SKILL TREE ]
-                    </h3>
-                    <p class="text-center text-xs sm:text-sm text-gray-400 italic mb-4">
-                        Click badges to cast spells & inspect deep mastery lore.
-                    </p>
-
-                    <!-- Interactive Skill Badges Container -->
-                    <div id="skill-badges" class="flex flex-wrap justify-center gap-2 pt-2">
-                        <!-- Badges injected dynamically via JS -->
-                    </div>
-                </div>
-
-                <!-- Spell casting feedback box -->
-                <div id="spell-box" class="mt-4 p-3 bg-abyss-800/80 border border-abyss-crimson/40 rounded-lg text-center text-xs font-mono text-abyss-crimson min-h-[42px] flex items-center justify-center">
-                    ✨ Click a skill badge to cast its compilation spell...
-                </div>
-            </section>
-
-            <!-- ROW 2, COL 1: ARTIFACT MASTERY -->
-            <section class="border-b md:border-b-0 md:border-r border-abyss-border pb-6 md:pb-0 md:pr-6 pt-4 md:pt-0">
-                <h3 class="font-cinzel text-center text-lg sm:text-xl font-bold text-gray-100 mb-4 flex items-center justify-center gap-2">
-                    <span>🩸</span> [ ARTIFACT MASTERY ]
-                </h3>
+            <!-- COLUMN 1: Abyssal Lore -->
+            <div class="space-y-4 md:border-r md:border-[#4a0000] md:pr-6">
+                <h3 class="font-cinzel text-xl text-center text-[#ff0055] font-bold tracking-wide">🕳️ [ ABYSSAL LORE ]</h3>
+                <p class="text-center italic text-sm text-gray-400">"Kindling the bonfire while the grimoire compiles in the dark."</p>
                 
-                <div class="space-y-3 font-mono text-xs sm:text-sm">
-                    <div class="bg-abyss-800/40 p-2 rounded border border-abyss-border/30">
-                        <div class="flex justify-between mb-1 text-gray-300">
-                            <span>🔥 TS & JS</span>
-                            <span class="text-abyss-crimson font-bold">92%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 rounded-full h-2.5 overflow-hidden border border-abyss-border/50">
-                            <div class="bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson h-2.5 rounded-full transition-all duration-1000" style="width: 92%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-abyss-800/40 p-2 rounded border border-abyss-border/30">
-                        <div class="flex justify-between mb-1 text-gray-300">
-                            <span>🕸️ HTML & CSS</span>
-                            <span class="text-abyss-crimson font-bold">90%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 rounded-full h-2.5 overflow-hidden border border-abyss-border/50">
-                            <div class="bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson h-2.5 rounded-full transition-all duration-1000" style="width: 90%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-abyss-800/40 p-2 rounded border border-abyss-border/30">
-                        <div class="flex justify-between mb-1 text-gray-300">
-                            <span>🌌 React & Next</span>
-                            <span class="text-abyss-crimson font-bold">88%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 rounded-full h-2.5 overflow-hidden border border-abyss-border/50">
-                            <div class="bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson h-2.5 rounded-full transition-all duration-1000" style="width: 88%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-abyss-800/40 p-2 rounded border border-abyss-border/30">
-                        <div class="flex justify-between mb-1 text-gray-300">
-                            <span>⚙️ Node.js</span>
-                            <span class="text-abyss-crimson font-bold">85%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 rounded-full h-2.5 overflow-hidden border border-abyss-border/50">
-                            <div class="bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson h-2.5 rounded-full transition-all duration-1000" style="width: 85%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-abyss-800/40 p-2 rounded border border-abyss-border/30">
-                        <div class="flex justify-between mb-1 text-gray-300">
-                            <span>📜 Git</span>
-                            <span class="text-abyss-crimson font-bold">85%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 rounded-full h-2.5 overflow-hidden border border-abyss-border/50">
-                            <div class="bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson h-2.5 rounded-full transition-all duration-1000" style="width: 85%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-abyss-800/40 p-2 rounded border border-abyss-border/30">
-                        <div class="flex justify-between mb-1 text-gray-300">
-                            <span>🗄️ Database DB</span>
-                            <span class="text-abyss-crimson font-bold">75%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 rounded-full h-2.5 overflow-hidden border border-abyss-border/50">
-                            <div class="bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson h-2.5 rounded-full transition-all duration-1000" style="width: 75%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-abyss-800/40 p-2 rounded border border-abyss-border/30">
-                        <div class="flex justify-between mb-1 text-gray-300">
-                            <span>🕷️ Playwright</span>
-                            <span class="text-abyss-crimson font-bold">75%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 rounded-full h-2.5 overflow-hidden border border-abyss-border/50">
-                            <div class="bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson h-2.5 rounded-full transition-all duration-1000" style="width: 75%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-abyss-800/40 p-2 rounded border border-abyss-border/30">
-                        <div class="flex justify-between mb-1 text-gray-300">
-                            <span>⚡ Vite & Tauri</span>
-                            <span class="text-abyss-crimson font-bold">70%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 rounded-full h-2.5 overflow-hidden border border-abyss-border/50">
-                            <div class="bg-gradient-to-r from-abyss-darkcrimson to-abyss-crimson h-2.5 rounded-full transition-all duration-1000" style="width: 70%"></div>
-                        </div>
-                    </div>
+                <ul class="space-y-3 text-sm md:text-base">
+                    <li><strong class="text-[#ff0055]">Entity:</strong> Rhapthorn</li>
+                    <li><strong class="text-[#ff0055]">Domain:</strong> Full-Stack Development & IT Operations</li>
+                    <li><strong class="text-[#ff0055]">Relics of Choice:</strong> TypeScript, React, Next.js, & Tauri</li>
+                    <li><strong class="text-[#ff0055]">Active Curses:</strong> Architecting a Souls-like deckbuilder, forging modular bots, and constructing dashboards.</li>
+                    <li><strong class="text-[#ff0055]">Alignment:</strong> Chaotic Neutral</li>
+                </ul>
+
+                <!-- Sound & Atmosphere Controller -->
+                <div class="pt-4 border-t border-[#4a0000] text-center">
+                    <button id="sound-btn" onclick="toggleAmbience()" class="px-4 py-2 text-xs font-code tracking-wider uppercase bg-[#1a1a1a] text-[#ff0055] border border-[#ff0055] rounded hover:bg-[#ff0055] hover:text-white transition-all shadow-[0_0_10px_rgba(255,0,85,0.2)]">
+                        🔊 [ Toggle Bonfire Embers Sound ]
+                    </button>
                 </div>
-            </section>
+            </div>
 
-            <!-- ROW 2, COL 2: GRIMOIRE METRICS -->
-            <section class="pt-4 md:pt-0 flex flex-col items-center">
-                <h3 class="font-cinzel text-center text-lg sm:text-xl font-bold text-gray-100 mb-4 flex items-center justify-center gap-2">
-                    <span>📊</span> [ GRIMOIRE METRICS ]
-                </h3>
-
-                <div class="w-full space-y-4 flex flex-col items-center">
-                    <div class="w-full bg-abyss-800/60 p-3 rounded-xl border border-abyss-border/70 shadow-inner flex justify-center overflow-hidden">
-                        <img src="https://github-readme-stats.vercel.app/api?username=Rhapthorn&show_icons=true&theme=radical&hide_border=true&bg_color=0d1117&title_color=ff0055&icon_color=ff0055&text_color=c9d1d9" 
-                             onerror="this.src='https://placehold.co/450x180/0d1117/ff0055?text=GitHub+Stats+Unavailable'"
-                             alt="GitHub Stats" class="max-w-full h-auto rounded" />
-                    </div>
-                    <div class="w-full bg-abyss-800/60 p-3 rounded-xl border border-abyss-border/70 shadow-inner flex justify-center overflow-hidden">
-                        <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Rhapthorn&layout=compact&hide=java,python,c,c++&theme=radical&hide_border=true&bg_color=0d1117&title_color=ff0055&text_color=c9d1d9" 
-                             onerror="this.src='https://placehold.co/450x150/0d1117/ff0055?text=Top+Languages+Unavailable'"
-                             alt="Top Languages" class="max-w-full h-auto rounded" />
-                    </div>
-                    <div class="w-full bg-abyss-800/60 p-3 rounded-xl border border-abyss-border/70 shadow-inner flex justify-center overflow-hidden">
-                        <img src="https://github-readme-streak-stats.herokuapp.com?user=Rhapthorn&theme=radical&hide_border=true&background=0D1117&fire=FF0055&sideLabels=true" 
-                             onerror="this.src='https://placehold.co/450x160/0d1117/ff0055?text=GitHub+Streak+Unavailable'"
-                             alt="GitHub Streak" class="max-w-full h-auto rounded" />
-                    </div>
+            <!-- COLUMN 2: Forbidden Skill Tree -->
+            <div class="space-y-4">
+                <h3 class="font-cinzel text-xl text-center text-[#ff0055] font-bold tracking-wide">🗡️ [ FORBIDDEN SKILL TREE ]</h3>
+                <p class="text-center text-xs text-gray-400">Mastered Runes & Technologies</p>
+                
+                <div class="flex flex-wrap justify-center gap-2 pt-2">
+                    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+                    <img src="https://img.shields.io/badge/JavaScript-1a1a1a?style=for-the-badge&logo=javascript&logoColor=F7DF1E" alt="JavaScript" />
+                    <img src="https://img.shields.io/badge/HTML5-1a1a1a?style=for-the-badge&logo=html5&logoColor=E34F26" alt="HTML5" />
+                    <img src="https://img.shields.io/badge/CSS3-1a1a1a?style=for-the-badge&logo=css3&logoColor=1572B6" alt="CSS3" />
+                    <img src="https://img.shields.io/badge/React-1a1a1a?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+                    <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" />
+                    <img src="https://img.shields.io/badge/Tauri-1a1a1a?style=for-the-badge&logo=tauri&logoColor=FFC131" alt="Tauri" />
+                    <img src="https://img.shields.io/badge/Vite-1a1a1a?style=for-the-badge&logo=vite&logoColor=646CFF" alt="Vite" />
+                    <img src="https://img.shields.io/badge/Node.js-1a1a1a?style=for-the-badge&logo=nodedotjs&logoColor=5FA04E" alt="Node.js" />
+                    <img src="https://img.shields.io/badge/Prisma-1a1a1a?style=for-the-badge&logo=prisma&logoColor=white" alt="Prisma" />
+                    <img src="https://img.shields.io/badge/Playwright-1a1a1a?style=for-the-badge&logo=playwright&logoColor=2EAD33" alt="Playwright" />
+                    <img src="https://img.shields.io/badge/SQLite-1a1a1a?style=for-the-badge&logo=sqlite&logoColor=003B57" alt="SQLite" />
+                    <img src="https://img.shields.io/badge/Git-1a1a1a?style=for-the-badge&logo=git&logoColor=F05032" alt="Git" />
                 </div>
-            </section>
+            </div>
 
-        </main>
+        </div>
 
-        <!-- SECTION 3: PROJECT DUNGEON & QUEST LOG -->
-        <section class="mt-8 bg-abyss-900 border border-abyss-border rounded-xl p-6 shadow-2xl relative">
-            <h3 class="font-cinzel text-center text-xl font-bold text-gray-100 mb-2 flex items-center justify-center gap-2">
-                <span>🏰</span> [ PROJECT DUNGEON & ACTIVE CURSES ]
-            </h3>
-            <p class="text-center text-xs text-gray-400 mb-6 font-mono">Conquered repositories and ongoing arcane engineering quests.</p>
+        <!-- ROW 2 GRID: Artifact Mastery & Grimoire Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 gothic-box p-6 md:p-8">
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Quest 1 -->
-                <div class="bg-abyss-800/70 border border-abyss-border/80 rounded-lg p-4 flex flex-col justify-between hover:border-abyss-crimson transition duration-300">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="font-bold text-gray-200 text-sm">⚔️ Souls-like Deckbuilder</span>
-                            <span class="px-2 py-0.5 text-[10px] font-mono bg-amber-950 text-amber-400 border border-amber-800 rounded">In Progress</span>
-                        </div>
-                        <p class="text-xs text-gray-400 mb-4">Architecting card combat mechanics, stamina meters, and grim boss encounters in TypeScript & React.</p>
+            <!-- ARTIFACT MASTERY -->
+            <div class="space-y-4 md:border-r md:border-[#4a0000] md:pr-6">
+                <h3 class="font-cinzel text-xl text-center text-[#ff0055] font-bold tracking-wide">🩸 [ ARTIFACT MASTERY ]</h3>
+                
+                <div class="space-y-3 font-code text-sm pt-2">
+                    <div class="flex items-center justify-between">
+                        <span>🔥 TS & JS</span>
+                        <img src="https://geps.dev/progress/92?dangerColor=8b0000&bgColor=1a1a1a" alt="TS Progress" class="w-3/5 h-5" />
                     </div>
-                    <div>
-                        <div class="flex justify-between text-[11px] font-mono text-gray-400 mb-1">
-                            <span>Dungeon Progress</span>
-                            <span class="text-abyss-crimson font-bold">68%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 h-2 rounded-full overflow-hidden border border-abyss-border">
-                            <div class="bg-abyss-crimson h-full rounded-full" style="width: 68%"></div>
-                        </div>
+                    <div class="flex items-center justify-between">
+                        <span>🕸️ HTML & CSS</span>
+                        <img src="https://geps.dev/progress/90?dangerColor=8b0000&bgColor=1a1a1a" alt="HTML Progress" class="w-3/5 h-5" />
                     </div>
-                </div>
-
-                <!-- Quest 2 -->
-                <div class="bg-abyss-800/70 border border-abyss-border/80 rounded-lg p-4 flex flex-col justify-between hover:border-abyss-crimson transition duration-300">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="font-bold text-gray-200 text-sm">🤖 Modular Discord Bot</span>
-                            <span class="px-2 py-0.5 text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-800 rounded">Deployed</span>
-                        </div>
-                        <p class="text-xs text-gray-400 mb-4">Forging automated moderation, music streaming hooks, and custom guild logging modules with Node.js.</p>
+                    <div class="flex items-center justify-between">
+                        <span>🌌 React & Next</span>
+                        <img src="https://geps.dev/progress/88?dangerColor=8b0000&bgColor=1a1a1a" alt="React Progress" class="w-3/5 h-5" />
                     </div>
-                    <div>
-                        <div class="flex justify-between text-[11px] font-mono text-gray-400 mb-1">
-                            <span>Dungeon Progress</span>
-                            <span class="text-emerald-400 font-bold">100%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 h-2 rounded-full overflow-hidden border border-abyss-border">
-                            <div class="bg-emerald-500 h-full rounded-full" style="width: 100%"></div>
-                        </div>
+                    <div class="flex items-center justify-between">
+                        <span>⚙️ Node.js</span>
+                        <img src="https://geps.dev/progress/85?dangerColor=8b0000&bgColor=1a1a1a" alt="Node Progress" class="w-3/5 h-5" />
                     </div>
-                </div>
-
-                <!-- Quest 3 -->
-                <div class="bg-abyss-800/70 border border-abyss-border/80 rounded-lg p-4 flex flex-col justify-between hover:border-abyss-crimson transition duration-300">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="font-bold text-gray-200 text-sm">📊 IT Operations Dashboard</span>
-                            <span class="px-2 py-0.5 text-[10px] font-mono bg-purple-950 text-purple-400 border border-purple-800 rounded">Refining</span>
-                        </div>
-                        <p class="text-xs text-gray-400 mb-4">Building high-performance desktop utility metrics using Tauri, Vite, and SQLite data caching.</p>
+                    <div class="flex items-center justify-between">
+                        <span>📜 Git</span>
+                        <img src="https://geps.dev/progress/85?dangerColor=8b0000&bgColor=1a1a1a" alt="Git Progress" class="w-3/5 h-5" />
                     </div>
-                    <div>
-                        <div class="flex justify-between text-[11px] font-mono text-gray-400 mb-1">
-                            <span>Dungeon Progress</span>
-                            <span class="text-purple-400 font-bold">85%</span>
-                        </div>
-                        <div class="w-full bg-abyss-900 h-2 rounded-full overflow-hidden border border-abyss-border">
-                            <div class="bg-purple-500 h-full rounded-full" style="width: 85%"></div>
-                        </div>
+                    <div class="flex items-center justify-between">
+                        <span>🗄️ Database</span>
+                        <img src="https://geps.dev/progress/75?dangerColor=8b0000&bgColor=1a1a1a" alt="DB Progress" class="w-3/5 h-5" />
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>🕷️ Playwright</span>
+                        <img src="https://geps.dev/progress/75?dangerColor=8b0000&bgColor=1a1a1a" alt="Playwright Progress" class="w-3/5 h-5" />
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>⚡ Vite & Tauri</span>
+                        <img src="https://geps.dev/progress/70?dangerColor=8b0000&bgColor=1a1a1a" alt="Tauri Progress" class="w-3/5 h-5" />
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- SECTION 4: THE FORBIDDEN ALTAR (INTERACTIVE TERMINAL) -->
-        <section id="terminal-section" class="mt-8 bg-abyss-900 border border-abyss-border rounded-xl p-6 shadow-2xl relative font-mono">
-            <div class="flex items-center justify-between border-b border-abyss-border pb-3 mb-4">
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-red-600 inline-block"></span>
-                    <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
-                    <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
-                    <span class="text-gray-300 font-bold text-sm ml-2">rhapthorn@void-abyss:~ (Terminal Altar)</span>
+            <!-- GRIMOIRE METRICS -->
+            <div class="space-y-4 text-center">
+                <h3 class="font-cinzel text-xl text-[#ff0055] font-bold tracking-wide">📊 [ GRIMOIRE METRICS ]</h3>
+                
+                <div class="space-y-4 pt-2 flex flex-col items-center">
+                    <img src="https://github-readme-stats.vercel.app/api?username=Rhapthorn&show_icons=true&theme=radical&hide_border=true&bg_color=0d1117&title_color=ff0055&icon_color=ff0055&text_color=c9d1d9" alt="GitHub Stats" class="max-w-full rounded" />
+                    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Rhapthorn&layout=compact&hide=java,python,c,c++&theme=radical&hide_border=true&bg_color=0d1117&title_color=ff0055&text_color=c9d1d9" alt="Top Languages" class="max-w-full rounded" />
+                    <img src="https://github-readme-streak-stats.herokuapp.com?user=Rhapthorn&theme=radical&hide_border=true&background=0D1117&fire=FF0055&sideLabels=true" alt="GitHub Streak" class="max-w-full rounded" />
                 </div>
-                <button onclick="clearTerminal()" class="text-xs text-gray-400 hover:text-abyss-crimson transition">[ Clear Screen ]</button>
             </div>
 
-            <!-- Terminal Output Area -->
-            <div id="terminal-output" class="bg-abyss-950/80 border border-abyss-border/70 rounded-lg p-4 h-64 overflow-y-auto text-xs sm:text-sm space-y-2 mb-3">
-                <div class="text-gray-400">Welcome to the Forbidden Altar v3.1. Type <span class="text-abyss-crimson font-bold">help</span> to view available arcane commands.</div>
+        </div>
+
+        <!-- Interactive Terminal Console -->
+        <div class="gothic-box p-6 font-code">
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-[#4a0000] text-xs text-gray-400">
+                <span>terminal://rhapthorn-void-core</span>
+                <span class="flex gap-1.5">
+                    <span class="w-3 h-3 rounded-full bg-red-900 inline-block"></span>
+                    <span class="w-3 h-3 rounded-full bg-yellow-900 inline-block"></span>
+                    <span class="w-3 h-3 rounded-full bg-green-900 inline-block"></span>
+                </span>
             </div>
+            <div id="terminal-output" class="text-sm space-y-1 text-gray-300 min-h-[60px]">
+                <p class="text-[#ff0055]">&gt; Initializing Void Terminal v3.5.0...</p>
+                <p>&gt; Type <span class="text-white font-bold">help</span> or click commands below to inspect the sorcerer.</p>
+            </div>
+            <div class="flex flex-wrap gap-2 mt-4 pt-3 border-t border-[#4a0000]/50 text-xs">
+                <button onclick="runCommand('stats')" class="px-2.5 py-1 bg-[#1a1a1a] text-[#ff0055] border border-[#4a0000] hover:border-[#ff0055] rounded">stats</button>
+                <button onclick="runCommand('stack')" class="px-2.5 py-1 bg-[#1a1a1a] text-[#ff0055] border border-[#4a0000] hover:border-[#ff0055] rounded">stack</button>
+                <button onclick="runCommand('lore')" class="px-2.5 py-1 bg-[#1a1a1a] text-[#ff0055] border border-[#4a0000] hover:border-[#ff0055] rounded">lore</button>
+                <button onclick="runCommand('clear')" class="px-2.5 py-1 bg-[#1a1a1a] text-gray-400 border border-[#4a0000] hover:text-white rounded">clear</button>
+            </div>
+        </div>
 
-            <!-- Terminal Input Form -->
-            <form onsubmit="handleTerminalInput(event)" class="flex gap-2">
-                <span class="text-abyss-crimson font-bold flex items-center">&gt;</span>
-                <input type="text" id="terminal-input" autocomplete="off"
-                       class="w-full bg-abyss-950 border border-abyss-border rounded px-3 py-2 text-gray-200 focus:outline-none focus:border-abyss-crimson text-xs sm:text-sm font-mono"
-                       placeholder="Type a command (e.g., help, lore, skills, stats, summon)...">
-                <button type="submit" class="px-4 py-2 bg-abyss-crimson hover:bg-red-700 text-white rounded font-bold text-xs transition">Execute</button>
-            </form>
-        </section>
-
-        <!-- FOOTER -->
-        <footer class="text-center mt-10 text-xs sm:text-sm text-gray-500 font-mono tracking-wider">
-            💀 <i>Summoned with dark magic & code &bull; Theme: Anime Dark Fantasy &bull; rhapthorn.github.io</i> 💀
-        </footer>
+        <!-- Footer -->
+        <div class="text-center text-xs text-gray-500 pb-6">
+            💀 <em>Summoned with dark magic & code &bull; Theme: Anime Dark Fantasy</em> 💀
+        </div>
 
     </div>
 
-    <!-- SCRIPT LOGIC: Interactive Features, Web Audio, Embers Canvas, and Terminal -->
+    <!-- JavaScript Interactivity -->
     <script>
-        // --- 1. WEB AUDIO API SYNTHESIZED SOUNDS ---
-        let audioCtx = null;
-        let isAudioEnabled = false;
+        // Generate Floating Embers
+        const embersContainer = document.getElementById('embers-container');
+        const emberCount = 25;
 
-        function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        for (let i = 0; i < emberCount; i++) {
+            const ember = document.createElement('div');
+            ember.classList.add('ember');
+            const size = Math.random() * 4 + 2;
+            ember.style.width = `${size}px`;
+            ember.style.height = `${size}px`;
+            ember.style.left = `${Math.random() * 100}vw`;
+            ember.style.animationDuration = `${Math.random() * 6 + 4}s`;
+            ember.style.animationDelay = `${Math.random() * 5}s`;
+            embersContainer.appendChild(ember);
+        }
+
+        // Terminal Command Interpreter
+        function runCommand(cmd) {
+            const output = document.getElementById('terminal-output');
+            let response = '';
+
+            switch(cmd) {
+                case 'stats':
+                    response = `<p class="text-[#ff0055]">&gt; stats</p><p>[STATUS]: Corrupted | [MANA]: 999/999 | [GUILD]: WebStorm & VS Code Sorcerers</p>`;
+                    break;
+                case 'stack':
+                    response = `<p class="text-[#ff0055]">&gt; stack</p><p>Core Relics: TypeScript, React, Next.js, Tauri, Node.js, Prisma, Playwright, SQLite.</p>`;
+                    break;
+                case 'lore':
+                    response = `<p class="text-[#ff0055]">&gt; lore</p><p>Entity: Rhapthorn. Domain: Full-Stack Development & IT Operations. Alignment: Chaotic Neutral.</p>`;
+                    break;
+                case 'clear':
+                    output.innerHTML = `<p class="text-[#ff0055]">&gt; Terminal cleared.</p>`;
+                    return;
+                default:
+                    response = `<p class="text-[#ff0055]">&gt; ${cmd}</p><p>Unknown curse command. Type 'stats', 'stack', or 'lore'.</p>`;
             }
-        }
-
-        function playSpellSound(freq = 220, type = 'sine', duration = 0.15) {
-            if (!isAudioEnabled) return;
-            try {
-                initAudio();
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-                
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
-            } catch (e) {
-                console.debug('Audio error:', e);
-            }
-        }
-
-        function toggleAudio() {
-            isAudioEnabled = !isAudioEnabled;
-            const label = document.getElementById("audio-label");
-            const icon = document.getElementById("audio-icon");
-            if (isAudioEnabled) {
-                initAudio();
-                label.textContent = "Ambient Sorcery: ON";
-                icon.className = "fa-solid fa-volume-high text-emerald-400";
-                playSpellSound(440, 'triangle', 0.3);
-            } else {
-                label.textContent = "Ambient Sorcery: OFF";
-                icon.className = "fa-solid fa-volume-xmark text-abyss-crimson";
-            }
-        }
-
-        // --- 2. CRT SCANLINE TOGGLE ---
-        function toggleCRT() {
-            document.documentElement.classList.toggle('crt-active');
-            playSpellSound(180, 'sawtooth', 0.1);
-        }
-
-        // --- 3. TYPING BANNER EFFECT ---
-        const phrases = [
-            "System Corrupted...",
-            "User: Rhapthorn",
-            "Class: Void Architect & Code Necromancer",
-            "Whispers from the Abyss...",
-            "Welcome to rhapthorn.github.io"
-        ];
-        let currentPhraseIdx = 0;
-        let charIdx = 0;
-        let isDeleting = false;
-        const typingElement = document.getElementById("typing-text");
-
-        function typeEffect() {
-            const currentPhrase = phrases[currentPhraseIdx];
-            if (isDeleting) {
-                typingElement.textContent = currentPhrase.substring(0, charIdx - 1);
-                charIdx--;
-            } else {
-                typingElement.textContent = currentPhrase.substring(0, charIdx + 1);
-                charIdx++;
-            }
-
-            let typeSpeed = isDeleting ? 35 : 70;
-
-            if (!isDeleting && charIdx === currentPhrase.length) {
-                typeSpeed = 2000;
-                isDeleting = true;
-            } else if (isDeleting && charIdx === 0) {
-                isDeleting = false;
-                currentPhraseIdx = (currentPhraseIdx + 1) % phrases.length;
-                typeSpeed = 400;
-            }
-
-            setTimeout(typeEffect, typeSpeed);
-        }
-
-        // --- 4. GRIMOIRE ACCORDION TOGGLE ---
-        function toggleGrimoire() {
-            const content = document.getElementById("grimoire-content");
-            const chevron = document.getElementById("grimoire-chevron");
-            playSpellSound(320, 'sine', 0.1);
-            if (content.classList.contains("hidden")) {
-                content.classList.remove("hidden");
-                chevron.classList.add("rotate-180");
-            } else {
-                content.classList.add("hidden");
-                chevron.classList.remove("rotate-180");
-            }
-        }
-
-        // --- 5. INTERACTIVE SKILL BADGES & HUD STATS ---
-        let hp = 100;
-        let mana = 999;
-
-        function updateHUD() {
-            document.getElementById("hp-text").textContent = `${hp}/100`;
-            document.getElementById("mana-text").textContent = `${mana}/999`;
-        }
-
-        function triggerManaSurge() {
-            mana = Math.min(999, mana + 50);
-            hp = Math.min(100, hp + 10);
-            updateHUD();
-            playSpellSound(587.33, 'triangle', 0.25);
-        }
-
-        const skills = [
-            { name: "TypeScript", mastery: "92%", lore: "The bedrock of strongly-typed arcane structures.", badgeUrl: "https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" },
-            { name: "JavaScript", mastery: "92%", lore: "The raw primordial incantation of the web realm.", badgeUrl: "https://img.shields.io/badge/JavaScript-1a1a1a?style=for-the-badge&logo=javascript&logoColor=F7DF1E" },
-            { name: "HTML5", mastery: "90%", lore: "Semantic blueprints anchoring the physical dom.", badgeUrl: "https://img.shields.io/badge/HTML5-1a1a1a?style=for-the-badge&logo=html5&logoColor=E34F26" },
-            { name: "CSS3", mastery: "90%", lore: "Dark gothic styling, shadows, and crimson gradients.", badgeUrl: "https://img.shields.io/badge/CSS3-1a1a1a?style=for-the-badge&logo=css3&logoColor=1572B6&v=1" },
-            { name: "React", mastery: "88%", lore: "Component-driven realms bringing reactive states to life.", badgeUrl: "https://img.shields.io/badge/React-1a1a1a?style=for-the-badge&logo=react&logoColor=61DAFB" },
-            { name: "Next.js", mastery: "88%", lore: "Server-side sorcery and optimized routing architecture.", badgeUrl: "https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" },
-            { name: "Tauri", mastery: "70%", lore: "Lightweight rust-backed native desktop invocations.", badgeUrl: "https://img.shields.io/badge/Tauri-1a1a1a?style=for-the-badge&logo=tauri&logoColor=FFC131" },
-            { name: "Vite", mastery: "70%", lore: "Lightning-speed hot module compilation magic.", badgeUrl: "https://img.shields.io/badge/Vite-1a1a1a?style=for-the-badge&logo=vite&logoColor=646CFF" },
-            { name: "Node.js", mastery: "85%", lore: "Backend server runtime governing background daemons.", badgeUrl: "https://img.shields.io/badge/Node.js-1a1a1a?style=for-the-badge&logo=nodedotjs&logoColor=5FA04E" },
-            { name: "Prisma", mastery: "75%", lore: "Type-safe database ORM warding off corrupt queries.", badgeUrl: "https://img.shields.io/badge/Prisma-1a1a1a?style=for-the-badge&logo=prisma&logoColor=white" },
-            { name: "Playwright", mastery: "75%", lore: "Automated end-to-end testing spirits patrolling code.", badgeUrl: "https://img.shields.io/badge/Playwright-1a1a1a?style=for-the-badge&logo=playwright&logoColor=2EAD33&v=1" },
-            { name: "SQLite", mastery: "75%", lore: "Embedded relational datastores locked in local files.", badgeUrl: "https://img.shields.io/badge/SQLite-1a1a1a?style=for-the-badge&logo=sqlite&logoColor=003B57" },
-            { name: "Git", mastery: "85%", lore: "Time-travel version control protecting the repository.", badgeUrl: "https://img.shields.io/badge/Git-1a1a1a?style=for-the-badge&logo=git&logoColor=F05032" }
-        ];
-
-        function renderSkillBadges() {
-            const container = document.getElementById("skill-badges");
-            const spellBox = document.getElementById("spell-box");
-
-            skills.forEach(skill => {
-                const img = document.createElement("img");
-                img.src = skill.badgeUrl;
-                img.alt = skill.name;
-                img.className = "cursor-pointer transform hover:scale-110 hover:shadow-crimson-sm transition-all duration-300 rounded";
-                img.title = `Click to cast ${skill.name} spell!`;
-                
-                img.onclick = () => {
-                    playSpellSound(493.88, 'sine', 0.2);
-                    spellBox.innerHTML = `⚡ <strong class="text-white">${skill.name}</strong> [Mastery: ${skill.mastery}] — <em>${skill.lore}</em>`;
-                    spellBox.classList.add("border-abyss-crimson", "bg-abyss-900");
-                    mana = Math.max(0, mana - 15);
-                    updateHUD();
-                    setTimeout(() => {
-                        spellBox.classList.remove("border-abyss-crimson");
-                    }, 1500);
-                };
-
-                container.appendChild(img);
-            });
-        }
-
-        // --- 6. FLOATING EMBERS CANVAS ---
-        const canvas = document.getElementById("ember-canvas");
-        const ctx = canvas.getContext("2d");
-        let embers = [];
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        for (let i = 0; i < 35; i++) {
-            embers.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 2.2 + 0.8,
-                speedY: Math.random() * 0.8 + 0.3,
-                speedX: (Math.random() - 0.5) * 0.4,
-                opacity: Math.random() * 0.7 + 0.2
-            });
-        }
-
-        function animateEmbers() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            embers.forEach(ember => {
-                ember.y -= ember.speedY;
-                ember.x += ember.speedX;
-                if (ember.y < 0) {
-                    ember.y = canvas.height + 10;
-                    ember.x = Math.random() * canvas.width;
-                }
-                ctx.beginPath();
-                ctx.arc(ember.x, ember.y, ember.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 0, 85, ${ember.opacity})`;
-                ctx.shadowBlur = 8;
-                ctx.shadowColor = "#ff0055";
-                ctx.fill();
-            });
-            requestAnimationFrame(animateEmbers);
-        }
-
-        // --- 7. FORBIDDEN ALTAR TERMINAL LOGIC ---
-        function appendTerminalOutput(text, isHtml = false) {
-            const output = document.getElementById("terminal-output");
-            const div = document.createElement("div");
-            if (isHtml) {
-                div.innerHTML = text;
-            } else {
-                div.textContent = text;
-            }
-            output.appendChild(div);
+            output.innerHTML += response;
             output.scrollTop = output.scrollHeight;
         }
 
-        function clearTerminal() {
-            document.getElementById("terminal-output").innerHTML = '<div class="text-gray-400">Terminal altar cleansed. Type <span class="text-abyss-crimson font-bold">help</span> for commands.</div>';
-            playSpellSound(220, 'square', 0.1);
-        }
+        // Web Audio Bonfire Ambience Generator (Simulated Brown Noise / Crackle)
+        let audioCtx = null;
+        let isPlaying = false;
+        let noiseNode = null;
 
-        function handleTerminalInput(e) {
-            e.preventDefault();
-            const inputEl = document.getElementById("terminal-input");
-            const cmd = inputEl.value.trim().toLowerCase();
-            if (!cmd) return;
+        function toggleAmbience() {
+            const btn = document.getElementById('sound-btn');
+            if (!isPlaying) {
+                try {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    
+                    // Create buffer for soft ambient crackle/rumble
+                    const bufferSize = audioCtx.sampleRate * 2;
+                    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        data[i] = (Math.random() * 2 - 1) * 0.05; // Low volume white/brown noise
+                    }
 
-            appendTerminalOutput(`> ${cmd}`);
-            inputEl.value = "";
-            playSpellSound(350, 'sine', 0.1);
+                    noiseNode = audioCtx.createBufferSource();
+                    noiseNode.buffer = buffer;
+                    noiseNode.loop = true;
 
-            switch (cmd) {
-                case 'help':
-                    appendTerminalOutput(`Available Arcane Commands:
-  - lore      : Reveal deep background of Rhapthorn
-  - skills    : List all relics and forbidden skill tree items
-  - stats     : Inspect artifact mastery & Grimoire metrics
-  - projects  : View active dungeon quests and curses
-  - summon    : Cast a random mana surge and heal HP
-  - clear     : Cleanse the terminal altar screen`, false);
-                    break;
-                case 'lore':
-                    appendTerminalOutput(`Entity: Rhapthorn | Domain: Full-Stack Development & IT Operations.
-"Kindling the bonfire while the grimoire compiles in the dark. Every repository is a sealed dungeon."`, false);
-                    break;
-                case 'skills':
-                    appendTerminalOutput(`Relics & Skill Tree: TypeScript, JavaScript, HTML5, CSS3, React, Next.js, Tauri, Vite, Node.js, Prisma, Playwright, SQLite, Git.`, false);
-                    break;
-                case 'stats':
-                    appendTerminalOutput(`Artifact Mastery: TS/JS (92%), HTML/CSS (90%), React/Next (88%), Node.js (85%), Git (85%), DB (75%), Playwright (75%), Vite/Tauri (70%).`, false);
-                    break;
-                case 'projects':
-                    appendTerminalOutput(`Active Quests: Souls-like Deckbuilder (68%), Modular Discord Bot (100%), IT Operations Dashboard (85%).`, false);
-                    break;
-                case 'summon':
-                    triggerManaSurge();
-                    appendTerminalOutput(`✨ Mana surge successfully invoked! HP and Mana restored.`, false);
-                    break;
-                case 'matrix':
-                    appendTerminalOutput(`01010010 01101000 01100001 01110000 01110100 01101000 01101111 01110010 01101110 - THE ABYSS IS WATCHING.`, false);
-                    break;
-                case 'clear':
-                    clearTerminal();
-                    break;
-                default:
-                    appendTerminalOutput(`Unknown command '${cmd}'. Type 'help' for a list of valid grimoire spells.`, false);
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.value = 300;
+
+                    noiseNode.connect(filter);
+                    filter.connect(audioCtx.destination);
+                    noiseNode.start();
+
+                    isPlaying = true;
+                    btn.textContent = "🔊 [ Disable Bonfire Embers Sound ]";
+                    btn.classList.add('bg-[#ff0055]', 'text-white');
+                } catch(e) {
+                    console.log("AudioContext blocked or unsupported", e);
+                }
+            } else {
+                if (noiseNode) {
+                    noiseNode.stop();
+                }
+                if (audioCtx) {
+                    audioCtx.close();
+                }
+                isPlaying = false;
+                btn.textContent = "🔊 [ Toggle Bonfire Embers Sound ]";
+                btn.classList.remove('bg-[#ff0055]', 'text-white');
             }
         }
-
-        // Initialize on window load
-        window.onload = function() {
-            window.scrollTo(0, 0);
-            typeEffect();
-            renderSkillBadges();
-            updateHUD();
-            animateEmbers();
-        };
     </script>
 </body>
 </html>

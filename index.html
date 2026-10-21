@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en" class="dark" style="scroll-behavior: smooth;">
 <head>
@@ -770,6 +771,21 @@
 
         // Initialize on window load
         window.onload = function() {
+            // FIX: Disable browser scroll caching natively
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+            
+            // FIX: Temporarily disable smooth scroll to instantly snap to top
+            document.documentElement.style.scrollBehavior = 'auto';
+            window.scrollTo(0, 0);
+            
+            // FIX: Restore smooth scrolling for the Terminal jump button
+            requestAnimationFrame(() => {
+                document.documentElement.style.scrollBehavior = 'smooth';
+            });
+
+            // Application logic
             typeEffect();
             renderSkillBadges();
             updateHUD();
